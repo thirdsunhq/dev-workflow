@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh issue view *)",
+      "Bash(gh issue create *)",
+      "Bash(gh pr create *)",
+      "Bash(git checkout *)",
+      "Bash(git pull *)",
+      "Bash(git branch *)",
+      "Bash(git fetch *)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git commit *)",
+      "Skill(design-doc-collab)",
+      "mcp__notion__notion-search",
+      "mcp__notion__notion-create-pages",
+      "mcp__notion__notion-fetch",
+      "mcp__notion__notion-update-page"
+    ]
+  }
+}

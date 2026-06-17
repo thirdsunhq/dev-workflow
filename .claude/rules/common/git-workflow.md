@@ -4,13 +4,14 @@
 
 ```
 1. Pick an issue
-   gh issue list
+   Linear board
 
-2. Start the issue (pulls main, creates branch)
-   /start-issue <number>
-
-3. Draft a design doc (optional, for non-trivial changes)
+2. Draft a design doc (optional, for trivial changes)
    /design-doc-collab
+   → decide here whether to split into sub-issues first
+
+3. Start the issue (pulls main, creates branch)
+   /start-issue <id>   e.g. /start-issue THI-11
 
 4. Write code, stage changes in Zed, then commit
    /commit-staged
@@ -31,8 +32,8 @@ One issue → one branch → one PR. Always start from and return to a clean mai
 
 ## Skills
 
-- `/new-issue` — create and label a GitHub issue
-- `/start-issue <number>` — pull main, derive branch name from issue label/title, and check it out
-- `/design-doc-collab` — start a collaborative design doc session (Notion + local), iterate until design is agreed, then commit the finalised doc
-- `/commit-staged` — commit staged changes with a conventional message, inferring type and issue number from the branch
-- `/open-pr` — fetch latest and open a PR from current branch into main
+- `/new-issue` — create and label a Linear issue
+- `/design-doc-collab` — start or resume a collaborative design doc session in Linear, attached to the current issue
+- `/start-issue <id>` — pull main and check out the branch derived from the Linear issue
+- `/commit-staged` — commit staged changes with a conventional message, inferring type and Linear issue ID from the branch
+- `/open-pr` — fetch latest and open a PR from current branch into main, referencing the Linear issue

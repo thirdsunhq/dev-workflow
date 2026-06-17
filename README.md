@@ -13,7 +13,6 @@ A lightweight, portable [Claude Code](https://claude.ai/code) configuration that
 - Always start from and return to a clean `main`
 - One issue → one branch → one PR
 - Design doc lives locally in `design_docs/` during development; pushed to Linear when finalised — no branch needed during design
-- Local design doc is deleted on cleanup after merge; the Linear copy is the permanent record
 - Branch creation is the moment you commit to a scope of work
 - I still like to manually review and stage changes before commit (helps internalise project state)
 - Commits are always manual via `/commit-staged` — the skill never auto-commits

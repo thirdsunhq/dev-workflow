@@ -6,73 +6,76 @@ A lightweight, portable [Claude Code](https://claude.ai/code) configuration that
 
 - [Claude Code](https://claude.ai/code) CLI
 - [GitHub CLI](https://cli.github.com/) (`gh`) authenticated
-- Notion MCP server configured (only required for `/design-doc-collab`)
+- Linear MCP server configured
 
 ## The Workflow
 
 - Always start from and return to a clean `main`
-- One issue → one branch → one PR. 
-- Design doc work slots in as an optional step between branch creation and coding.
+- One issue → one branch → one PR
+- Design doc lives locally in `design_docs/` during development; pushed to Linear when finalised — no branch needed during design
+- Local design doc is deleted on cleanup after merge; the Linear copy is the permanent record
+- Branch creation is the moment you commit to a scope of work
 - I still like to manually review and stage changes before commit (helps internalise project state)
 - Commits are always manual via `/commit-staged` — the skill never auto-commits
 
 ```mermaid
 flowchart TD
-    A["1. Pick an issue<br/>gh issue list"] --> B["2. Start issue<br/>/start-issue (n)"]
-    B --> C{"Non-trivial<br/>changes?"}
-    C -->|yes| D["3. Design doc collab<br/>/design-doc-collab"]
-    C -->|no| E["4. Write code<br/>stage in editor"]
-    D --> E
-    E --> F["5. Commit<br/>/commit-staged"]
-    F --> G["6. Open PR<br/>/open-pr"]
-    G --> H["7. Review + merge<br/>in GitHub UI"]
-    H --> I["8. Clean up<br/>git checkout main<br/>git branch -d branch"]
-    I --> A
+    A["1. Pick an issue<br/>Linear"] --> B{"Trivial<br/>changes?"}
+    B -->|No| C["2. Design doc collab<br/>/design-doc-collab"]
+    C --> D{"Split into<br/>sub-issues?"}
+    D -->|Yes| E["Create sub-issues<br/>in Linear"]
+    E --> A
+    D -->|no| F["3. Start issue<br/>/start-issue (n)"]
+    B -->|Yes| F
+    F --> G["4. Write code<br/>stage in editor"]
+    G --> H["5. Commit<br/>/commit-staged"]
+    H --> I["6. Open PR<br/>/open-pr"]
+    I --> J["7. Review + merge<br/>in GitHub UI"]
+    J --> K["8. Clean up<br/>git checkout main<br/>git branch -d branch<br/>delete design_docs/ file"]
+    K --> A
 ```
-
 
 ## Skills
 
 | Command | What it does |
 |---|---|
-| `/new-issue` | Create and label a GitHub issue |
-| `/start-issue <n>` | Pull main, derive branch name from issue label/title, check it out |
-| `/design-doc-collab` | Start or resume a collaborative design doc session (Notion + local) |
-| `/commit-staged` | Commit staged changes with a conventional message, inferring type and issue number from the branch |
-| `/open-pr` | Fetch latest and open a PR from current branch into main |
+| `/new-issue` | Create and label a Linear issue |
+| `/start-issue <id>` | Pull main, check out the branch derived from the Linear issue (e.g. `THI-11`) |
+| `/design-doc-collab` | Start or resume a collaborative design doc session in Linear, attached to the current issue |
+| `/commit-staged` | Commit staged changes with a conventional message, inferring type and Linear issue ID from the branch |
+| `/open-pr` | Fetch latest and open a PR from current branch into main, referencing the Linear issue |
 
 ## Design Doc Collaboration
 
-`/design-doc-collab` expands step 3 into a live, iterative loop between Claude and the user — active whenever you're working on a design, not a strict mode that must be exited.
+`/design-doc-collab` expands step 2 into a live, iterative loop between Claude and the user — active whenever you're working on a design, not a strict mode that must be exited.
 
 ```mermaid
 flowchart TD
-    A["/design-doc-collab invoked"] --> B{"Branch page<br/>exists in Notion?"}
-    B -->|found| C["Confirm to user<br/>read local file (resuming)"]
-    B -->|not found| D["Search for Design Docs parent<br/>create branch page as child<br/>create local file with frontmatter"]
+    A["/design-doc-collab invoked"] --> B{"Local file<br/>exists?"}
+    B -->|found| C["Confirm to user<br/>(resuming)"]
+    B -->|not found| D["Create design_docs/file.md<br/>with frontmatter and skeleton"]
     C --> E["Claude drafts / revises content"]
     D --> E
-    E --> F["Push to Notion<br/>notion-update-page"]
-    F --> G["User reviews in Notion<br/>edits, asks questions"]
-    G --> H["Claude pulls<br/>sync / check notion"]
-    H --> I{"Design<br/>agreed?"}
-    I -->|no| E
-    I -->|yes| J["Local file up to date<br/>ready for /commit-staged"]
+    E --> F["User reviews in editor<br/>edits, asks questions"]
+    F --> G{"Design<br/>agreed?"}
+    G -->|no| E
+    G -->|yes| H["Push to Linear<br/>ready for /start-issue"]
 ```
 
 ### Naming conventions
 
-- **Notion:** Design Docs > `<Label>: <issue title> (#<n>)`
-- **Local:** `<your-designs-dir>/<branch-slug>.md` — gitignored, not tracked
-- Local file carries frontmatter: `notion_page_id` and `notion_url`
+- **Local:** `design_docs/<branch-slug>.md` — `gitBranchName` with `username/` prefix stripped (e.g. `design_docs/thi-11-define-and-validate-development-workflow.md`); gitignored
+- **Linear:** document titled `<IDENTIFIER>: <issue title>`, attached to the issue — permanent record
+- Local file carries frontmatter: `linear_doc_id`, `issue`, `created_at`, `created_by`
 
 ### Sync triggers
 
 | Trigger | Action |
 |---|---|
-| "check notion" / "pull from notion" / "sync" | Fetch page, diff vs local, update local |
-| After any draft or revision | Push to Notion via `replace_content` |
-| Session start (resuming) | Read local frontmatter, confirm existing page |
+| "push to linear" / "sync to linear" | Upload local content to Linear document (create or update) |
+| "pull from linear" / "check linear" | Fetch Linear doc, show diff, update local file |
+| Design agreed | Push final content, confirm attached to issue |
+| Branch cleanup (post-merge) | Delete local `design_docs/` file — Linear doc persists |
 
 ## Installation
 
@@ -84,10 +87,8 @@ cp -r .claude/ /path/to/your-project/
 
 ### Customise
 
-Two values in the `design-doc-collab` files are set to conventions from the source project — update them to match your own:
+Update the team name in the skill files to match your Linear workspace:
 
 | File | Value to change | What it controls |
 |---|---|---|
-| `.claude/rules/common/design-doc-collab.md` | `project_docs/designs/` | Local directory for design doc files |
-| `.claude/skills/design-doc-collab/SKILL.md` | `project_docs/designs/` | Same path, referenced in the skill |
-| `.claude/skills/design-doc-collab/SKILL.md` | `"Design Docs"` | Notion parent page name |
+| `.claude/skills/new-issue/SKILL.md` | `"thirdsun"` | Linear team name for issue creation |

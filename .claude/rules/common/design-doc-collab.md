@@ -6,7 +6,7 @@ The rules below apply whenever you are working on a design doc — whether start
 
 ## Naming and Location
 
-- **Local:** `design_docs/<branch-slug>.md` — branch name with `username/` prefix stripped (e.g. `design_docs/thi-11-define-and-validate-development-workflow.md`); gitignored, not tracked
+- **Local:** `design_docs/<branch-slug>.md` — `gitBranchName` with `username/` prefix stripped (e.g. `design_docs/thi-11-define-and-validate-development-workflow.md`); gitignored, not tracked
 - **Linear:** document titled `<IDENTIFIER>: <issue title>`, attached to the issue — the permanent record
 
 The local file carries frontmatter with metadata and the Linear document ID once synced:

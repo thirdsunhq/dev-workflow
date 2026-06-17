@@ -15,7 +15,7 @@ allowed-tools: Bash(git branch *), Bash(gh api *), Bash(date *), Bash(test *), R
 2. Call `mcp__claude_ai_Linear__get_issue` with the identifier to get the issue `title` and `gitBranchName`
 
 3. Derive the local filename:
-   - Take `gitBranchName` (e.g. `sean/thi-11-define-and-validate-development-workflow`)
+   - Take `gitBranchName` (e.g. `thirdsundev/thi-11-define-and-validate-development-workflow`)
    - Strip the `username/` prefix → `thi-11-define-and-validate-development-workflow`
    - Local path: `design_docs/thi-11-define-and-validate-development-workflow.md`
 

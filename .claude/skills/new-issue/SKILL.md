@@ -1,20 +1,8 @@
 ---
 name: new-issue
-description: Create a new github issue from the description
-allowed-tools: Bash(gh issue create *), Bash(git branch *)
+description: Create a new Linear issue from the description
+allowed-tools: mcp__claude_ai_Linear__list_issue_labels, mcp__claude_ai_Linear__save_issue
 ---
-
-# Labels reference
-- **bug**: Something isn't working
-- **chore**: Tooling, configuration, or workflow maintenance
-- **documentation**: Improvements or additions to documentation
-- **duplicate**: This issue or pull request already exists
-- **feature**: New functionality or capability added
-- **in-progress**: Currently being worked on
-- **invalid**: This doesn't seem right
-- **question**: Further information is requested
-- **refactor**: Improvements to codebase structure
-- **wontfix**: This will not be worked on
 
 # Issue body format
 Structure the issue body using this markdown template:
@@ -26,15 +14,17 @@ One or two sentences describing the problem or goal clearly.
 - [ ] First concrete task
 - [ ] Additional tasks as needed
 
-## Context
-- **Branch:** <current git branch>
-- **Date:** <today's date>
-- **Notes:** <any extra detail from the description>
-
 # Steps
-1. Run `git branch --show-current` to get the current branch name
-2. Infer the appropriate label from the **Labels reference**
-3. Write a concise title prefixed with the label type, e.g. `Refactor: ...` or `Bug: ...`
+1. Call `mcp__claude_ai_Linear__list_issue_labels` (no team filter) to get the current workspace label list
+2. Infer the appropriate label from the current label list
+3. Write a concise title
 4. Build the issue body using the **Issue body format** above
-5. Run `gh issue create --title "<title>" --body "<body>" --label "<label>" --assignee "@me"`
-6. Report the issue number and title returned by gh
+5. Call `mcp__claude_ai_Linear__save_issue` with:
+   - `title`: the issue title
+   - `team`: "thirdsun"
+   - `description`: the issue body
+   - `labels`: `["inferred-label-name"]`
+   - `assignee`: "me"
+   - `state`: "Backlog" (default, unless a project is specified)
+   - `project`: project name if one was mentioned in the invocation, otherwise omit
+6. Report the issue identifier and title

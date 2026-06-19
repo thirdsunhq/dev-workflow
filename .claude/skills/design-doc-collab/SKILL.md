@@ -1,7 +1,7 @@
 ---
 name: design-doc-collab
 description: Start or resume a collaborative design doc session — creates a local markdown file in design_docs/ and syncs to a Linear document attached to the issue on demand.
-allowed-tools: Bash(git branch *), Bash(gh api *), Bash(date *), Bash(test *), Read, Write, mcp__claude_ai_Linear__get_issue, mcp__claude_ai_Linear__save_document, mcp__claude_ai_Linear__get_document
+allowed-tools: Bash(git branch *), Bash(gh api *), Bash(date *), Bash(test *), Bash(open *), Read, Write, mcp__claude_ai_Linear__get_issue, mcp__claude_ai_Linear__save_document, mcp__claude_ai_Linear__get_document
 ---
 
 ## Setup
@@ -22,12 +22,13 @@ allowed-tools: Bash(git branch *), Bash(gh api *), Bash(date *), Bash(test *), R
 4. Run `gh api user --jq '.login'` to get the GitHub account name
 
 5. Check if the local file exists:
-   - **Found**: read it, note the `linear_doc_id` from frontmatter, say *"Resuming design doc for `<identifier>: <title>`"*
+   - **Found**: read it, note the `linear_doc_id` from frontmatter, say *"Resuming design doc for `<identifier>: <title>`"*, then run `open -a Typora <local_file_path>`
    - **Not found**:
      1. Create the local file with frontmatter + content skeleton (see below)
      2. Immediately call `mcp__claude_ai_Linear__save_document` with `title: "<IDENTIFIER>: <issue title>"`, `issue: "<identifier>"`, and the skeleton content (excluding frontmatter)
      3. Write the returned document ID into `linear_doc_id` in the frontmatter
-     4. Say *"Created design doc for `<identifier>: <title>` — Linear document attached to issue"*
+     4. Run `open -a Typora <local_file_path>`
+     5. Say *"Created design doc for `<identifier>: <title>` — Linear document attached to issue"*
 
 ## Local file format
 

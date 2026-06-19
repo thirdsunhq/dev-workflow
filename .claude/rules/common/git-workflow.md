@@ -26,6 +26,7 @@
    git pull origin main
    git branch -d <branch-name>
    git push origin --delete <branch-name>
+   rm -rf design_docs/
 ```
 
 One issue → one branch → one PR. Always start from and return to a clean main.

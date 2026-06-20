@@ -32,27 +32,6 @@ allowed-tools: Bash(git branch *), Bash(gh api *), Bash(date *), Bash(test *), B
 
 ## Local file format
 
-Frontmatter followed by the document content:
-
-```markdown
----
-linear_doc_id:
-issue: THI-11
-created_at: 2026-06-17T14:00:00
-created_by: thirdsundev
----
-
-# THI-11: Issue Title
-
-## Summary
-
-## In scope
-
-## Out of scope
-
-## Design
-
-## Open questions
-```
+See assets/template.md for the file skeleton.
 
 The collaboration rules are defined in `.claude/rules/common/design-doc-collab.md`.

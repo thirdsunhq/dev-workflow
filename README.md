@@ -7,6 +7,7 @@ A lightweight, portable [Claude Code](https://claude.ai/code) configuration that
 - [Claude Code](https://claude.ai/code) CLI
 - [GitHub CLI](https://cli.github.com/) (`gh`) authenticated
 - Linear MCP server configured
+- [Typora](https://typora.io/) for local design doc editing (opened automatically by `/design-doc-collab`)
 
 ## The Workflow
 
@@ -55,11 +56,13 @@ flowchart TD
     B -->|not found| D["Create design_docs/file.md<br/>with frontmatter and skeleton"]
     C --> E["Claude drafts / revises content"]
     D --> E
-    E --> F["User reviews in editor<br/>edits, asks questions"]
+    E --> F["User reviews in Typora<br/>edits, asks questions"]
     F --> G{"Design<br/>agreed?"}
     G -->|no| E
     G -->|yes| H["Push to Linear<br/>ready for /start-issue"]
 ```
+
+`/design-doc-collab` opens the local file in Typora automatically — a WYSIWYG markdown editor so you see the rendered doc, not raw markdown, while Claude revises alongside you in the conversation.
 
 ### Naming conventions
 

@@ -17,7 +17,7 @@ One or two sentences describing the problem or goal clearly.
 # Steps
 1. Call `mcp__claude_ai_Linear__list_issue_labels` (no team filter) to get the current workspace label list
 2. Infer the appropriate label from the current label list
-3. Write a concise title
+3. Write a concise title (max 60 characters) that describes the issue, not the predicted fix
 4. Build the issue body using the **Issue body format** above
 5. Call `mcp__claude_ai_Linear__save_issue` with:
    - `title`: the issue title

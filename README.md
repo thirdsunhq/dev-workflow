@@ -9,6 +9,24 @@ A lightweight, portable [Claude Code](https://claude.ai/code) configuration that
 - Linear MCP server configured
 - [Typora](https://typora.io/) for local design doc editing (opened automatically by `/design-doc-collab`)
 
+## Installation
+
+Run this from the root of your project:
+
+```bash
+gh api repos/thirdsunhq/dev-workflow/contents/install.sh --jq '.content' | base64 -d | bash
+```
+
+This downloads the `.claude/rules/` and `.claude/skills/` files into your project. Existing files in `.claude/` are not removed — only the listed files are written.
+
+### Customise
+
+Update the team name in the skill files to match your Linear workspace:
+
+| File | Value to change | What it controls |
+|---|---|---|
+| `.claude/skills/new-issue/SKILL.md` | `"thirdsun"` | Linear team name for issue creation |
+
 ## The Workflow
 
 - Always start from and return to a clean `main`
@@ -78,19 +96,3 @@ flowchart TD
 | "pull from linear" / "check linear" | Fetch Linear doc, show diff, update local file |
 | Design agreed | Push final content, confirm attached to issue |
 | Branch cleanup (post-merge) | Delete local `design_docs/` file — Linear doc persists |
-
-## Installation
-
-Copy the `.claude/` directory into your project root:
-
-```bash
-cp -r .claude/ /path/to/your-project/
-```
-
-### Customise
-
-Update the team name in the skill files to match your Linear workspace:
-
-| File | Value to change | What it controls |
-|---|---|---|
-| `.claude/skills/new-issue/SKILL.md` | `"thirdsun"` | Linear team name for issue creation |

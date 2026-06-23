@@ -1,6 +1,9 @@
 ---
 linear_doc_id:
 issue: THI-11
+issue_title:
+project:
+repo:
 created_at: 2026-06-17T14:00:00
 created_by: thirdsundev
 ---

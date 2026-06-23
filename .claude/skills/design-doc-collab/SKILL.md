@@ -19,12 +19,12 @@ allowed-tools: Bash(git branch *), Bash(gh api *), Bash(date *), Bash(test *), B
    - Strip the `username/` prefix → `thi-11-define-and-validate-development-workflow`
    - Local path: `design_docs/thi-11-define-and-validate-development-workflow.md`
 
-4. Run `gh api user --jq '.login'` to get the GitHub account name
+4. Run `gh api user --jq '.login'` to get the GitHub account name. Run `gh api repos/{owner}/{repo} --jq '.full_name'` (derive owner/repo from `git remote get-url origin`) to get the repo name, or leave blank if not in a git repo with a remote.
 
 5. Check if the local file exists:
    - **Found**: read it, note the `linear_doc_id` from frontmatter, say *"Resuming design doc for `<identifier>: <title>`"*, then run `open -a Typora <local_file_path>`
    - **Not found**:
-     1. Create the local file with frontmatter + content skeleton only — sections must be empty, no placeholder bullets or filler text (see below)
+     1. Create the local file with frontmatter + content skeleton only — sections must be empty, no placeholder bullets or filler text (see below). Populate `issue_title` from the Linear issue title, `project` from the Linear issue's project name, and `repo` from the GitHub remote.
      2. Immediately call `mcp__claude_ai_Linear__save_document` with `title: "<IDENTIFIER>: <issue title>"`, `issue: "<identifier>"`, and the skeleton content (excluding frontmatter)
      3. Write the returned document ID into `linear_doc_id` in the frontmatter
      4. Run `open -a Typora <local_file_path>`

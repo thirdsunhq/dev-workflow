@@ -15,6 +15,9 @@ The local file carries frontmatter with metadata and the Linear document ID once
 ---
 linear_doc_id:
 issue: THI-11
+issue_title:
+project:
+repo:
 created_at: 2026-06-17T14:00:00
 created_by: thirdsundev
 ---
@@ -43,6 +46,15 @@ created_by: thirdsundev
 - Push to Linear when design is finalised
 
 Treat every exchange as part of an ongoing design conversation, not a one-shot generation task.
+
+## Architectural Decision Records
+
+The `## Decisions` section is an ADR log. As decisions emerge from the conversation, add an entry immediately — don't wait until finalisation. Use the conversation as the source: capture what was decided, why, and what alternatives were rejected and for what reason. Decisions captured late lose the reasoning that produced them. Before finalising, review the full conversation and ensure all decisions are recorded completely and accurately.
+
+## Writing Style
+
+- Be concise — one clear sentence beats a paragraph
+- Use precise technical terminology; avoid vague filler ("leverage", "utilize", "ensure")
 
 ## Finalising
 
